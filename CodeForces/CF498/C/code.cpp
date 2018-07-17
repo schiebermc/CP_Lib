@@ -81,6 +81,7 @@ ll solution2(ll n, vector<ll> a){
         summ += a[i];
         if(stuff.count(summ) != 0 and stuff[summ] < i) {
             best = (best < summ ? summ : best);
+            printf("%lld, (%lld, %lld)\n", best, stuff[summ], i);
         }
     }
 
@@ -89,31 +90,31 @@ ll solution2(ll n, vector<ll> a){
 
 }
 
-//void validation(ll start_seed, ll end_seed, ll n) {
-//
-//    clock_t t0 = clock();
-//    for(ll s=start_seed; s<=end_seed; s++) {
-//        srand(s);
-//        vector<ll> a;
-//        for(ll i=0; i<n; i++) {
-//            a.push_back(rand()%10000);
-//        }
-//        //for (auto x : a) {
-//        //    printf("%lld, ", x);
-//        //}
-//        //printf("\n");
-//        //if(solution2(n, a) != solution(n, a)) {
-//        //    printf("failed at seed: %lld\n", s);
-//        //}
-//        if(solution1(n, a) != solution2(n, a)) {
-//            printf("INCORRECTE AT SEED: %lld\n", s);
-//        }
-//    }
-//    clock_t t1 = clock();
-//
-//    printf("time: %f\n", (float)(t1 - t0)/CLOCKS_PER_SEC);
-//
-//}
+void validation(ll start_seed, ll end_seed, ll n) {
+
+    clock_t t0 = clock();
+    for(ll s=start_seed; s<=end_seed; s++) {
+        srand(s);
+        vector<ll> a;
+        for(ll i=0; i<n; i++) {
+            a.push_back(rand()%10000);
+        }
+        for (auto x : a) {
+            printf("%lld ", x);
+        }
+        printf("\n");
+        //if(solution2(n, a) != solution(n, a)) {
+        //    printf("failed at seed: %lld\n", s);
+        //}
+        if(solution2(n, a) != solution1(n, a)) {
+            printf("INCORRECT AT SEED: %lld\n", s);
+        }
+    }
+    clock_t t1 = clock();
+
+    printf("time: %f\n", (float)(t1 - t0)/CLOCKS_PER_SEC);
+
+}
 
 int main() {
 
@@ -126,8 +127,8 @@ int main() {
         scanf("%lld", &arr[i]);
     }
     
-    //validation(746, 746, 1000);
-    solution2(n, arr);
+    validation(39, 39, 50);
+    //solution2(n, arr);
     
     return 0;
 }
