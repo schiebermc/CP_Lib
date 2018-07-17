@@ -22,7 +22,7 @@ private:
     vector<map<ll, ll>> G_;
     bool directed_;
     vector<ll> mos_vec_;
-    map<ll, ll> mos_indices;
+    map<ll, vector<ll>> mos_indices_;
 
 public:
     
@@ -70,39 +70,25 @@ public:
     }
 
     void init_mos(ll node=0) {
-        // initializes vector for using mo's algorithm
+        // initializes vector and index map for mo's algorithm
         // assumes tree is rooted at node 0
-        mos_indices[node] = mos_vec_.size();
+        mos_indices_[node] = {(ll)mos_vec_.size(), 0};
         mos_vec_.push_back(node);
         for(auto neighbor : get_neighbors(node)) {
             init_mos(neighbor);
         }
-        mos_vec_.push_back(node);
-
+        mos_indices_[node][1] = mos_vec_.size();
     }
     
     ll get_dfs_distance(ll source, ll k) {
         // returns node that is k distance away
         // uses mo's algorithm: O(sqrt(n)n)
-        set<ll> visited;
-        ll count = 1;
-        ll node = source;
-        ll ind = mos_indices[source] + 1;
-        while(count != k and ind < mos_vec_.size()) {
-            node = mos_vec_[ind];
-            if(node == source) {
-                break;
-            }    
-            if(visited.find(node) == visited.end()) {
-                count++;
-                visited.emplace(node);
-            }
-            ind++;
-        }
-        if(count != k) {
+        ll pos = mos_indices_[source][1] - mos_indices_[source][0];
+    
+        if(pos < k) {
             return -2;
         } else {
-            return node;
+            return mos_vec_[mos_indices_[source][0]+k-1];
         }
 
     }
@@ -169,12 +155,11 @@ public:
         // source node.  second item of pair is actual distance,
         // in case there is no node that is k from source.
 
-        if(count == k) {
-            return make_pair(source, count);
-        }
-
         count++;
         ll node = source;
+        if(count == k) {
+            return make_pair(node, count);
+        }
         
         for (auto neighbor :  get_neighbors(node)) {
             if(count == k) {
@@ -217,49 +202,52 @@ void solution2(Tree tree, ll m) {
 
 }
 
-void validation(ll n, ll m) {
-
-    Tree tree = Tree(n);
-    Graph graph = Graph(n);
-
-    for(ll i=1; i<n; i++) {
-        tree.add_edge(i-1, i, 0);
-        graph.add_edge(i-1, i, 0);
-    }
-
-    double T0 = 0.0;
-    double T1 = 0.0;
-   
-    clock_t start = clock();
-    tree.init_mos();
-    clock_t end = clock();
-    T0 += (double) (end-start) / CLOCKS_PER_SEC * 1000.0;
-
-    for(ll i=0; i<m; i++) {
-        ll u = rand() % n;
-        ll k = rand() % n;
-
-        start = clock();
-        ll val1 = tree.get_dfs_distance(u, k);
-        end = clock();
-        T0 += (double) (end-start) / CLOCKS_PER_SEC * 1000.0;
-        
-        start = clock();
-        ll val2;
-        pair<ll, ll> stuff = graph.get_dfs_distance(u, k);
-        if(get<1>(stuff) == k) {
-            val2 = get<0>(stuff);
-        } else {
-            val2 = -2;
-        }
-        end = clock();
-        T1 += (double) (end-start) / CLOCKS_PER_SEC * 1000.0;
-    }
-
-    printf("T0: %f\n", T0);
-    printf("T1: %f\n", T1);
-
-}
+//void validation(ll n, ll m) {
+//
+//    Tree tree = Tree(n);
+//    Graph graph = Graph(n, true);
+//
+//    for(ll i=1; i<n; i++) {
+//        tree.add_edge(i-1, i, 0);
+//        graph.add_edge(i-1, i, 0);
+//    }
+//
+//    double T0 = 0.0;
+//    double T1 = 0.0;
+//   
+//    clock_t start = clock();
+//    tree.init_mos();
+//    clock_t end = clock();
+//    T0 += (double) (end-start) / CLOCKS_PER_SEC * 1000.0;
+//
+//    for(ll i=0; i<m; i++) {
+//        ll u = rand() % n;
+//        ll k = rand() % n;
+//
+//        start = clock();
+//        ll val1 = tree.get_dfs_distance(u, k);
+//        end = clock();
+//        T0 += (double) (end-start) / CLOCKS_PER_SEC * 1000.0;
+//        
+//        start = clock();
+//        ll val2;
+//        pair<ll, ll> stuff = graph.get_dfs_distance(u, k);
+//        if(get<1>(stuff) == k) {
+//            val2 = get<0>(stuff);
+//        } else {
+//            val2 = -2;
+//        }
+//        end = clock();
+//        T1 += (double) (end-start) / CLOCKS_PER_SEC * 1000.0;
+//        if(val1 != val2) {
+//            printf("Failed ! ~ %lld, %lld\n", val1, val2);
+//        }
+//    }
+//
+//    printf("T0: %f\n", T0);
+//    printf("T1: %f\n", T1);
+//
+//}
 
 int main() {
 
@@ -273,8 +261,8 @@ int main() {
         graph.add_edge(node-1, i+1, 0);
     }
 
-    validation(10000, 1000);  
-    //solution(graph, m);
+    //validation(50000, 1000);  
+    solution2(graph, m);
 
     return 0;
 }

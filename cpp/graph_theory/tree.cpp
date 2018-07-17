@@ -22,7 +22,7 @@ private:
     vector<map<ll, ll>> G_;
     bool directed_;
     vector<ll> mos_vec_;
-    map<ll, ll> mos_indices;
+    map<ll, vector<ll>> mos_indices_;
 
 public:
     
@@ -70,41 +70,25 @@ public:
     }
 
     void init_mos(ll node=0) {
-        // initializes vector for using mo's algorithm
+        // initializes vector and index map for mo's algorithm
         // assumes tree is rooted at node 0
-        mos_indices[node] = mos_vec_.size();
+        mos_indices_[node] = {(ll)mos_vec_.size(), 0};
         mos_vec_.push_back(node);
         for(auto neighbor : get_neighbors(node)) {
             init_mos(neighbor);
         }
-        mos_vec_.push_back(node);
-
+        mos_indices_[node][1] = mos_vec_.size();
     }
     
     ll get_dfs_distance(ll source, ll k) {
         // returns node that is k distance away
-        // uses mo's algorithm: O(sqrt(n)n)
-        set<ll> visited;
-        ll count = 1;
-        ll node = source;
-        ll ind = mos_indices[source] + 1;
-        while(count != k and ind < mos_vec_.size()) {
-            node = mos_vec_[ind];
-            if(node == source) {
-                break;
-            }    
-            if(visited.find(node) == visited.end()) {
-                count++;
-                visited.emplace(node);
-            }
-            ind++;
-        }
-        if(count != k) {
+        // uses super sneaky trick : O(1))
+        ll pos = mos_indices_[source][1] - mos_indices_[source][0];
+        if(pos < k) {
             return -2;
         } else {
-            return node;
+            return mos_vec_[mos_indices_[source][0]+k-1];
         }
-
     }
     
     
@@ -126,7 +110,7 @@ int main() {
 
     ll n, m;
     cin >> n >> m;
-    Tree graph = Tree(n, true);
+    Tree tree = Tree(n, true);
 
     ll node;
     for(ll i=0; i<n-1; i++) {
