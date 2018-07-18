@@ -12,50 +12,66 @@ using namespace std;
 
 typedef long long int ll;
 
-
-void solution(ll n, ll m, vector<ll> a){
-
-
-}
-
-void solution2(ll n, ll m, vector<ll> a){
+void check_add(map<char, ll>& s, char c);
 
 
-}
+void solution(ll n, string a, string b){
 
-void validation(ll start_seed, ll end_seed, ll n) {
-
-    for(ll s=start_seed; s<=end_seed; s++) {
-        srand(s);
-        vector<ll> a;
-        for(ll i=0; i<n; i++) {
-            a.push_back(rand()%16);
+    ll count = 0;
+    for(ll i=0; i<n/2; i++) {
+        map<char, ll> stuff;
+        check_add(stuff, a[i]);
+        check_add(stuff, b[i]);
+        check_add(stuff, a[n-1-i]);
+        check_add(stuff, b[n-1-i]);
+        ll items = stuff.size();
+        ll max_val = 0;
+        for (auto kv : stuff) {
+            max_val = (max_val < kv.second ? kv.second : max_val);
         }
-        //for (auto x : a) {
-        //    printf("%lld, ", x);
-        //}
-        //printf("\n");
-        //if(solution2(n, a) != solution(n, a)) {
-        //    printf("failed at seed: %lld\n", s);
-        //}
+        
+        if(items == 4){
+            count += 2;
+        } else if (items == 3) {
+            if(a[i] != a[n-1-i]) 
+                count++;
+            else
+                count += 2;
+        } else if (items == 2 and max_val == 3) {
+            count += 1;
+        }
+    }
+    
+    if(n%2 == 1) {
+        if(a[n/2] != b[n/2]){
+            count++;
+        }
+    }
+    printf("%lld\n", count);
 
+}
+
+void check_add(map<char, ll>& s, char c){
+    if(s.count(c) == 0) {
+        s[c] = 1;
+    } else {
+        s[c] += 1;
     }
 
 }
+
 
 int main() {
 
     // variables
-    ll n, m;
-    cin >> n >> m;
+    ll n;
+    cin >> n;
 
-    vector<ll> arr; arr.resize(n);
-    for(ll i=0; i<n; i++) {
-        scanf("%lld", &arr[i]);
-    }
-    
+    string a, b;
+    cin >> a >> b;
+   
     //validation(0, 10, 10)
-    solution(n, m, arr);
+    solution(n, a, b);
     
     return 0;
 }
