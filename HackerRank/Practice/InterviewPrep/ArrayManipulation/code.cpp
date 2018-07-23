@@ -15,76 +15,24 @@ typedef long long int ll;
 void solution(ll n, ll m){
 
     ll j, k, x;
-    ll best = 0;
-    vector<vector<ll>> segs;
-    
+    vector<ll> a(n);
     for(ll i=0; i<m; i++) {
-
-        scanf("%lld %lld %lld", &j, &k, &x);
-        ll current_size = segs.size();
-        ll val;
-        
-        if(current_size == 0) {
-            segs.push_back({j, k, x});
-            continue;
+        cin >> j >> k >> x;
+        j -= 1;
+        k -= 1;
+        a[j] += x;
+        if(k+1 < n){
+            a[k+1] -= x;
         }
-       
-        for(ll M=0; M<current_size; M++) {
-            
-            vector<ll> seg = segs[M];
-
-            if(j < seg[0] and k > seg[1]) {
-
-                segs.push_back({j, seg[0]-1, x});        
-                segs.push_back({seg[0], seg[1], seg[2] + x});        
-                segs.push_back({seg[1]+1, k, x});        
-                val = seg[2] + x;
-    
-            } else if(j < seg[0]) {
-                if(k < seg[0]) {
-                
-                    segs.push_back({j, k, x});
-                    val = x;
-                
-                } else {
-                    
-                    segs.push_back({j, seg[0]-1, x});
-                    segs.push_back({seg[0], k, seg[2] + x});
-                    val = seg[2] + x;
-                
-                }
-            } else if(k > seg[1]) {
-                if(j > seg[1]) {
-                
-                    segs.push_back({j, k, x});
-                    val = x;
-                
-                } else {
-
-                    segs.push_back({j, seg[1], seg[2] + x});        
-                    segs.push_back({seg[1]+1, k, x});        
-                    val = seg[2] + x;
-
-                }
-            } else {
-
-                segs.push_back({j, k, seg[2] + x});        
-                val = seg[2] + x;
-
-            }
-            best = (best < val ? val : best);
-        }
-        
+    }       
+    ll current = 0;
+    ll best = 0;
+    for(ll i=0; i<n; i++) {
+        current += a[i];
+        best = (best < current ? current : best);
     }
-    
     printf("%lld\n", best);
 
-}
-
-void swap(ll i, ll j, vector<ll>& a) {
-    ll tmp = a[i];
-    a[i] = a[j];
-    a[j] = tmp;
 }
 
 int main() {
