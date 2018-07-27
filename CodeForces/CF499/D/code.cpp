@@ -1,5 +1,4 @@
 //#include <bits/stdc++.h>
-
 #include <algorithm>
 #include <iostream>
 #include <vector>
@@ -12,36 +11,39 @@ using namespace std;
 
 typedef int ll;
 
+void query(ll x, ll & ans);
+
 void solution(ll m, ll n){
     
     ll ans;
     vector<bool> truth;
     for(ll i=0; i<n; i++){ 
-        printf("1\n");
-        fflush(stdout);
-        scanf("%d", &ans);
-        if(ans == 0)
-            return;
-        truth.push_back((ans == -1 ? true : false));
+        query(1, ans);
+        truth.push_back((ans == 1 ? true : false));
     } 
 
     ll upper = m;
-    ll lower = 1;
+    ll lower = 2;
     ll next = (upper + lower) / 2;
     for(ll i=0; i<60-n; i++) {
-        bool t = (truth[i%n]);
-        printf("%d\n", next);
-        fflush(stdout);
-        scanf("%d", &ans);
-        if(ans == 0)
-            return;
-        if((ans == -1 and t) or (ans == 1 and !t)) { // distance is lower
-            upper = next;
+        query(next, ans);
+        if(!truth[i%n])
+            ans *= -1;
+        if(ans == -1) { // distance is lower
+            upper = next - 1;
         } else { // distance is higher
-            lower = next;
+            lower = next + 1;
         }
-        ll next = (upper + lower) / 2;
+        next = (upper + lower) / 2;
     }
+}
+
+void query(ll x, ll &ans) {
+    cout<<x<<"\n";
+    fflush(stdout);
+    cin>>ans;
+    if(ans==0 || ans==-2)
+        exit(0);
 }
 
 int main() {
