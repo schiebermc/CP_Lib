@@ -16,19 +16,21 @@ typedef long long int ll;
 void solution(ll n, vector<ll> a){
 
     ll count1 = 0, count2 = 0;
-    for(ll i=0; i<n; i++) {
-        count2 = 0;
-        for(ll j=i+1; j<n; j++) {
-            if(a[j] < a[i]) {
-                count1++;
-                count2++;
-            }
-            if(count2 > 2 ) {
-                printf("Too chaotic\n");
-                return;
-            }
-        }
-    }
+//    for(ll i=0; i<n; i++) {
+//        count2 = 0;
+//        for(ll j=i+1; j<n; j++) {
+//            if(a[j] < a[i]) {
+//                count1++;
+//                count2++;
+//            }
+//            if(count2 > 2 ) {
+//                printf("Too chaotic\n");
+//                return;
+//            }
+//        }
+//    }
+
+    map<ll, set<ll>> 
     printf("%lld\n", count1);
 }
 

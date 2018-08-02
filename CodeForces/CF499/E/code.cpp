@@ -12,36 +12,44 @@ using namespace std;
 
 typedef long long int ll;
 
+void all_sums_under_k(set<ll>& pos, set<ll>& all_combos, ll k);
+void all_sums_under_k_recursive(ll summ, set<ll>& pos, set<ll>& all_combos, ll k);
 
-void solution(ll n, ll m, vector<ll> a){
+void solution(ll n, ll k, vector<ll> a){
 
-
-}
-
-void solution2(ll n, ll m, vector<ll> a){
-
-
-}
-
-void validation(ll start_seed, ll end_seed, ll n) {
-
-    for(ll s=start_seed; s<=end_seed; s++) {
-        srand(s);
-        vector<ll> a;
-        for(ll i=0; i<n; i++) {
-            a.push_back(rand()%16);
-        }
-        //for (auto x : a) {
-        //    printf("%lld, ", x);
-        //}
-        //printf("\n");
-        //if(solution2(n, a) != solution(n, a)) {
-        //    printf("failed at seed: %lld\n", s);
-        //}
-
+    set<ll> pos;
+    for(ll i=0; i<n; i++) 
+        pos.emplace(a[i]%k);
+    
+    // i think right here i need to generate all sums of these numbers less than k..
+    set<ll> all_combos;
+    // take care of zero
+    if(pos.count(0) != 0){
+        all_combos.emplace(0);
+        pos.erase(0);
     }
+    all_sums_under_k(pos, all_combos, k);
 
+    printf("%lu\n", all_combos.size());
+    for(auto x : all_combos) 
+        printf("%lld ", x);
+    printf("\n");
 }
+
+void all_sums_under_k(set<ll>& pos, set<ll>& all_combos, ll k) {
+    for(auto x : pos) {
+        all_sums_under_k_recursive(x, pos, all_combos, k);
+    }
+}
+
+void all_sums_under_k_recursive(ll summ, set<ll>& pos, set<ll>& all_combos, ll k) {
+    all_combos.emplace(summ % k);
+    for(auto x : pos) {
+        if(summ + x <= k)
+            all_sums_under_k_recursive(summ + x, pos, all_combos, k);
+    }
+}
+
 
 int main() {
 
