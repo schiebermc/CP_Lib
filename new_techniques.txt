@@ -1,5 +1,5 @@
 CF498 div 3:
-    Mo's algorithm for DFS traversal
+    Mo's algorithm for DFS traversal with queries
     meet in the middle
 
 CF499:
