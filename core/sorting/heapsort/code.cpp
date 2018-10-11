@@ -83,9 +83,8 @@ void heap_sort(vector<ll>& a) {
         h.a_[0] = h.a_[i];
         h.max_heap(0);
     }
-
-
 }
+
 void print_vector(string name, vector<ll>& a) {
     printf("%s\n", name.c_str());
     for(auto x : a) {

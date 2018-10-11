@@ -13,8 +13,13 @@ using namespace std;
 
 typedef long long int ll;
 void swap(vector<ll>& a, ll i, ll j);
+void bubble_sort(vector<ll>& a);
 
 void solution(vector<ll>& a){
+    bubble_sort(a);
+}
+
+void bubble_sort(vector<ll>& a) {
     // bubble sort
     // O(n^2)
     // simple N^2 scan containing many superflous comparisons
@@ -26,7 +31,6 @@ void solution(vector<ll>& a){
             }
         }
     }
-
 }
 
 void swap(vector<ll>& a, ll i, ll j) {
