@@ -20,11 +20,9 @@ void get_largest_two_keys(ll& largest, ll& second_largest, map<ll, ll>& a);
 void solution(ll n, ll k, map<ll, ll>& a){
 
     ll count = 0;
-    bool done = a.size() == 1 and a.find(0) != a.end();
-    while(!done) {
+    while(!(a.size() == 1)) {
         make_good_slice(n, k, a);
         count++;
-        done = (a.size() == 1);
     }
     printf("%lld\n", count);
 
