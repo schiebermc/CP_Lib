@@ -4,6 +4,12 @@ from heapq import heapify, heappush, heappop
 
 def solution(n, m, a, b):
 
+    # strategy
+    # 1. use a min heap, each element is a day. save
+    # the index of the day as the second element to access b[ind]
+    # 2. continuously decrement the most expensive day using the balloons
+    # that we have. push the new day back on the heap when accounted for.
+
     a = [[-1*a[ind]*b[ind], ind] for ind in range(len(a))]
     heapify(a)
     
