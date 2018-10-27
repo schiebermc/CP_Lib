@@ -28,6 +28,16 @@ if __name__ == "__main__":
 
         string_to_dict(da, a)
         string_to_dict(db, b)
+
+
+        # strategy is to get get a dict which contains the following:
+        # each key is an ascii code 
+        # only store key for upper case letters
+        # each val is a tuple (number of uppercase letters, number of lower case letters)
+        # the conversion is done using diff (32)
+
+        # the follwing details the solution
+        # if there is more of a capital in A, then the answer is NO
        
         new_da = {} 
         pos = True

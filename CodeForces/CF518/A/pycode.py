@@ -15,7 +15,10 @@ def solution(arr):
         print("-1")
     else:
         c = ceil((l+k)/float(m))
-        print(c)
+        if(c*m > n):
+            print('-1')
+        else:
+            print(c)
 
 if __name__ == "__main__":
 
