@@ -1,7 +1,9 @@
-# use this as the main template for python problems
+import sys
+sys.setrecursionlimit(2000)
 from collections import Counter
 
-def solution(n, arr):
+def solution(n, a):
+    print(n, a)
 
 if __name__ == "__main__":
 
@@ -9,8 +11,10 @@ if __name__ == "__main__":
     n = [int(val) for val in input().split()][0]
 
     # vectors
-    arr = [int(val) for val in input().split()]
+    a = [int(val) for val in input().split()]
 
     # solve it!
-    solution()
+    solution(n, a)
+
+
 
