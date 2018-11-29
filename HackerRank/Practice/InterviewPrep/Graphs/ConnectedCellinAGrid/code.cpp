@@ -224,41 +224,56 @@ public:
 
 };
 
-void solution(Graph graph, ll node, ll n) {
-
-    vector<ll> distances = graph.total_BFS_distance(node);
-    for (ll i=0; i<n; i++) {
-        if(i != node) {
-            if(distances[i] != -1)
-                printf("%lld ", distances[i]*6);
-            else
-                printf("%lld ", distances[i]);
-        }
-    }
-    printf("\n");
-}
-
 int main() {
 
-    ll q;
-    cin >> q;
-    for(ll i=0; i<q; i++) {
-
-        ll n, m;
-        cin >> n >> m;
-        Graph graph = Graph(n);
-
-        ll n1, n2;
-        for(ll i=0; i<m; i++) {
-            scanf("%lld %lld", &n1, &n2);
-            graph.add_edge(n1-1, n2-1, 1);
+    ll n, m;
+    cin >> n;
+    cin  >> m;
+    
+    
+    ll val, count = 0;
+    map<pair<ll, ll>, ll> index;
+    for(ll i=0 ;i<n; i++) {
+        for(ll j=0; j<m; j++) {
+            cin >> val;
+            if(val == 1){
+                index[make_pair(i, j)] = count;
+                count++;
+            }
         }
-        ll node;
-        cin >> node;
-        solution(graph, node-1, n);
-
     }
- 
+
+    Graph graph = Graph(count);
+    for(auto kv : index) {
+        ll i = get<0>(kv.first);
+        ll j = get<1>(kv.first);
+        ll node = kv.second;
+        
+        for(ll x=-1; x<2; x++) {
+            for(ll y=-1; y<2; y++) {
+                ll i2 = i + x;
+                ll j2 = j + y;
+                
+                if(i2 <0 or j2 < 0)
+                    continue;
+                if(i2 == n or j2 == n)
+                    continue;
+                
+                auto p = make_pair(i2, j2);
+                if(index.find(p) != index.end())
+                    graph.add_edge(node, index[p], 1); 
+            }
+        }
+    }    
+
+    auto vec =  graph.component_counts();
+    
+    ll best = 0;
+    for (auto x : vec)
+        best = max(x, best);
+
+    printf("%lld\n", best);
+    
     return 0;
 }
 

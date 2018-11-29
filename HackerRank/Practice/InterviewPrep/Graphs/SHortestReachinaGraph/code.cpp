@@ -180,47 +180,6 @@ public:
     
     }
 
-    vector<ll> component_counts() {
-        // returns the counts of all components in G_
-        // number of nodes in each component
-        // weakly ordered
-
-        set<ll> to_visit, visited;
-        for(ll i=0; i<n_; i++) {
-            to_visit.emplace(i);
-        }
-
-        set<ll> frontier;
-        vector<ll> counts;
-        set<ll>::iterator it1, it2;
-        while(to_visit.size() != 0) {
-
-            ll count = 0;
-            it1 = to_visit.begin();
-            ll node1 = *it1;
-            to_visit.erase(it1); // amortized 
-            frontier.emplace(node1); 
-               
-            while(frontier.size() != 0) {
-
-                count++;
-                it2 = frontier.begin();
-                ll node2 = *it2;
-                frontier.erase(it2);   // amortized
-                to_visit.erase(node2); // logorithmic by value
-                visited.emplace(node2);
-   
-                for (auto neighbor :  get_neighbors(node2)) {
-                    if(visited.find(neighbor) == visited.end()) {
-                        frontier.emplace(neighbor);
-                    }
-                }
-                
-            }
-            counts.push_back(count);
-        }
-        return counts;
-    }
 
 };
 

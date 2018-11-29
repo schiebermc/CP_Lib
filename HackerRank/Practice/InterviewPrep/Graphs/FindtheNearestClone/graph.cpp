@@ -64,62 +64,11 @@ public:
         }
         return neighbors;
     }
-   
-    // use these to go slightly faster. idk if it's necessary
-    // hackerrank is a joke 
-    map<ll, ll>::iterator get_neighbors_begin_iter(ll n) {
-        return G_[n].begin();
-    }
-    
-    map<ll, ll>::iterator get_neighbors_end_iter(ll n) {
-        return G_[n].end();
-    }
-
-    ll bfs_same_color(ll node1, vector<ll> colors) {
-        // returns the shortest distance between node1 and any node 
-        // of the same color
-        // adds distance as node to node.  does not use graph weights!
-
-        ll color = colors[node1];
-        ll distance = -1;    
-        set<ll> visited;
-        queue<pair<ll, ll>> frontier;
-        frontier.push(make_pair(node1, 0));
-        
-        while(frontier.size() != 0) {
-   
-                pair<ll, ll> next = frontier.front();
-                ll node2 = get<0>(next);
-                ll dist = get<1>(next);
-                frontier.pop();
-                visited.emplace(node2);                
-
-                if(colors[node2] == color and node2 != node1) {
-                    distance = dist;
-                    break;
-                }
-
-                auto itr1 = get_neighbors_begin_iter(node2);
-                auto itr2 = get_neighbors_end_iter(node2);
-                //for (auto neighbor :  get_neighbors(node2)) {
-                //for (auto &kv : G_[node2]) {
-                //    auto neighbor = kv.first;
-                while(itr1 != itr2) {
-                    auto neighbor = itr1->first;
-                    if(visited.find(neighbor) == visited.end()) {
-                        frontier.push(make_pair(neighbor, dist+1));
-                    }
-                    itr1++;
-                }
-        }
-        return distance;
-    }
 
     ll BFS_distance(ll n1, ll n2) {
         // returns the shortest BFS distnace between n1 and n2
         // faster than uniform cost, since no priority queue is needed
         // BFS frontier = queue    
-        // adds distance as node to node.  does not use graph weights!
     
         set<ll> visited;
         queue<pair<ll, ll>> frontier;
@@ -224,41 +173,27 @@ public:
 
 };
 
-void solution(Graph graph, ll node, ll n) {
+void solution(Graph graph) {
 
-    vector<ll> distances = graph.total_BFS_distance(node);
-    for (ll i=0; i<n; i++) {
-        if(i != node) {
-            if(distances[i] != -1)
-                printf("%lld ", distances[i]*6);
-            else
-                printf("%lld ", distances[i]);
-        }
-    }
-    printf("\n");
+
+    printf("in sol: \n"):
+    
 }
 
 int main() {
 
-    ll q;
-    cin >> q;
-    for(ll i=0; i<q; i++) {
+    ll n, m;
+    cin >> n >> m;
+    Graph graph = Graph(n);
 
-        ll n, m;
-        cin >> n >> m;
-        Graph graph = Graph(n);
-
-        ll n1, n2;
-        for(ll i=0; i<m; i++) {
-            scanf("%lld %lld", &n1, &n2);
-            graph.add_edge(n1-1, n2-1, 1);
-        }
-        ll node;
-        cin >> node;
-        solution(graph, node-1, n);
-
+    ll n1, n2;
+    for(ll i=0; i<m; i++) {
+        scanf("%lld %lld", &n1, &n2);
+        graph.add_edge(n1-1, n2-1, 1);
     }
- 
+
+    solution(graph);
+    
     return 0;
 }
 

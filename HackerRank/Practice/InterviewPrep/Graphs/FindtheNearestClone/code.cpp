@@ -224,41 +224,35 @@ public:
 
 };
 
-void solution(Graph graph, ll node, ll n) {
+void solution(Graph graph, vector<ll> colors, ll node) {
 
-    vector<ll> distances = graph.total_BFS_distance(node);
-    for (ll i=0; i<n; i++) {
-        if(i != node) {
-            if(distances[i] != -1)
-                printf("%lld ", distances[i]*6);
-            else
-                printf("%lld ", distances[i]);
-        }
-    }
-    printf("\n");
+    ll val = graph.bfs_same_color(node-1, colors);
+    printf("%lld\n", val); 
+
 }
 
 int main() {
 
-    ll q;
-    cin >> q;
-    for(ll i=0; i<q; i++) {
+    ll n, m;
+    cin >> n >> m;
+    Graph graph = Graph(n);
 
-        ll n, m;
-        cin >> n >> m;
-        Graph graph = Graph(n);
-
-        ll n1, n2;
-        for(ll i=0; i<m; i++) {
-            scanf("%lld %lld", &n1, &n2);
-            graph.add_edge(n1-1, n2-1, 1);
-        }
-        ll node;
-        cin >> node;
-        solution(graph, node-1, n);
-
+    ll n1, n2;
+    for(ll i=0; i<m; i++) {
+        scanf("%lld %lld", &n1, &n2);
+        graph.add_edge(n1-1, n2-1, 1);
     }
- 
+
+    vector<ll> colors; colors.resize(n);
+    for(ll i=0; i<n; i++) {
+        scanf("%lld ", &colors[i]);
+    }
+
+    ll node;
+    cin >> node;    
+
+    solution(graph, colors, node);
+    
     return 0;
 }
 
