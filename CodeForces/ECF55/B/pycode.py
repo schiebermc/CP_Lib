@@ -5,67 +5,64 @@ from collections import Counter
 
 def solution(n, a):
 
-    end_segs = {}
-    before_segs = {}
-    silvers = {}
+    new_a = []
+    # do one level of contraction
+    summ = 0
+    for i in a:
+        summ += i
+        if(i == 0):
+            if(summ != 0):
+                new_a.append(summ)
+            new_a.append(i)
+            summ = 0
 
-    ind = 0
-    count = 0
-    new_a = []  
-    for i in range(n):
+    if(summ != 0):
+        new_a.append(summ)
 
-        count += a[i]
-        if(a[i] == 0 and count != 0):
-       
-            if(ind != 0): 
-                before_segs[ind] = count
-            silvers[i] = 1
-            end_segs[i] = count
-            count = 0
+#    print(a)
+    a = new_a
+#    print(a)
 
-        if(a[i] == 0):
-            ind = i
+    # index the gold patches
+    gind = 0
+    golds = {}
+    edges = []
+    for ind, val in enumerate(a):
+        if(val != 0):
+            golds[gind] = val
+            gind += 1
+        else: # test for bridge
+            if(ind != 0 and a[ind-1] != 0 and
+                ind != len(a)-1 and a[ind+1] != 0):
+                edges.append([gind-1, gind])
 
-    if(count != 0):
-        if(ind != 0): 
-            before_segs[ind] = count
-        silvers[n+1] = 0
-        end_segs[n+1] = count
+#    print(golds)
+#    print(edges)
 
-    #print(before_segs)
-    #print(silvers)
-    #print(end_segs)    
-
-    if(len(end_segs) == 1):
+    # golds index each patch of gold
+    # edges contain edgs where a gold can meet another gold patch
+    best = 0
+    if(len(edges) != 0): # there is at least two gold patches, and they connect
+    
+        for ind1, ind2 in edges:
         
-        best = 0
-        for i in end_segs:
-            best = max(end_segs[i], best)
+            val = golds[ind1] + golds[ind2] 
+            if(len(golds) > 2):
+                val += 1
+            best = max(best, val)
 
-    elif(len(end_segs) == 2):
         
-        # two cases, the two segments are more than 1 silver apart
-        best = 0
-        for i in end_segs:
-            val = 0
-            if(i in before_segs):
-                val += before_segs[i] - 1
-            val += silvers[i] + end_segs[i]
-            best = max(val, best)
-
+    if(len(golds) == 0):
+        val = 0
     else:
-        
-        best = 0
-        for i in silvers:
-            val = 0
-            if(i in before_segs):
-                val += before_segs[i]
-            val += silvers[i] + end_segs[i]
-            best = max(val, best)
+        val = max([val for key, val in golds.items()])
+        if(len(golds) != 1):
+            val += 1
 
-    print(best)
+    best = max(best, val)
+
+    print(best) 
     return best
-
 
 #from random import seed
 #from random import randint
@@ -78,7 +75,7 @@ def solution(n, a):
 #        val1 = solution(len(a), a)
 #
 #        print(a, val1)
-#        
+        
 
 if __name__ == "__main__":
 
