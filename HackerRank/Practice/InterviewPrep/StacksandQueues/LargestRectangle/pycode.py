@@ -28,6 +28,7 @@ def get_index_bounds(val, i, a, n):
     return left, right    
 
 
+
 def solution(a, n):
     
     # weird solution incoming
@@ -47,7 +48,6 @@ def solution(a, n):
     
 
 
-
 if __name__ == "__main__":
 
     # single variables
@@ -57,6 +57,5 @@ if __name__ == "__main__":
     solution(a, n)
 
     
-
 
 
