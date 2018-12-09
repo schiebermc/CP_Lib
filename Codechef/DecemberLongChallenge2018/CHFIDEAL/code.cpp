@@ -1,5 +1,4 @@
 //#include <bits/stdc++.h>
-
 #include <algorithm>
 #include <iostream>
 #include <vector>
@@ -7,8 +6,10 @@
 #include <math.h>
 #include <map>
 #include <set>
+#include <unordered_map>
+#include <unordered_set>
 #include <climits>
-#include <list>
+#include <bitset>
 
 using namespace std;
 
@@ -47,26 +48,18 @@ void validation(ll start_seed, ll end_seed, ll n) {
 
 int main() {
 
-    list<ll> stuff;   
-    for(ll i=0; i<10; i++)
-        stuff.push_back(i);
-    
-    auto itr = stuff.begin();
-    while(itr != stuff.end()) {
-        printf("%lld\n", *itr);
-        if(*itr == 5){
-            stuff.erase(itr);
-            itr--;
-        }
-        itr++;
-       // printf("%lld\n", *itr);
-       // if(*itr == 5){
-       //     itr = stuff.erase(itr);
-       // } else {
-       //     itr++;
-       // }
+    // variables
+    ll n, m;
+    cin >> n >> m;
+
+    vector<ll> arr; arr.resize(n);
+    for(ll i=0; i<n; i++) {
+        scanf("%lld", &arr[i]);
     }
- 
+    
+    //validation(0, 10, 10)
+    solution(n, m, arr);
+    
     return 0;
 }
 
