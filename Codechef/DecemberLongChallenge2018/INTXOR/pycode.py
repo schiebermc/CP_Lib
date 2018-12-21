@@ -123,7 +123,6 @@ def int_from_bitlist(bitlist):
             result += 2**(n-1-ind)
     return result
 
-
 if __name__ == "__main__":
 
     # single variables
@@ -169,6 +168,11 @@ if __name__ == "__main__":
             print("%d " % (i), end='')
         print('')
         sys.stdout.flush()
-
+        
+        # after coding all this up, i got WA bc i didn't realize i had
+        # to do this part.  i love interactive problems :'(
+        val = [int(val) for val in input().split()][0]
+        if(val == -1):
+            fuck
 
 

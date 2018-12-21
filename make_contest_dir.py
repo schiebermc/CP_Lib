@@ -13,7 +13,7 @@ if __name__ == "__main__":
     np = args.np
     name = args.n
 
-    letters = ['A', 'B', 'C', 'D', 'E', 'F']
+    letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
 
     bashCommand = 'mkdir ' + name
     output = subprocess.check_output(['bash','-c', bashCommand])
