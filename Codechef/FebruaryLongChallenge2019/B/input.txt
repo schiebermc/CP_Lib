@@ -1,0 +1,10 @@
+2
+3
+abcaa
+bcbd
+bgc
+3
+quick
+brown
+fox
+

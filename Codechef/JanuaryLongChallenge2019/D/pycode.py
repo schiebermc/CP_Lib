@@ -1,7 +1,6 @@
 import sys
 sys.setrecursionlimit(2000)
 from collections import Counter
-from functools import reduce
 # sys.stdin.readline()
 
 def solution(n, a):

@@ -1,5 +1,6 @@
 import math
 from functools import reduce
+from fractions import gcd
 
 def get_number_of_divisors(n):
     if(n == 1):
@@ -46,7 +47,14 @@ def triangular_numbers(n):
         ind += 1
     return numbers
 
-def longest_collats
+def gcd(a, b):
+    while b:
+        a, b = b, a%b
+    return a
+
+def lcm(a, b):
+    return (a*b)/gcd(a, b)
+
 
 if __name__ == "__main__":
     
