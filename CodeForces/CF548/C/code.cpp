@@ -65,6 +65,19 @@ public:
 
 };
 
+ll mod_power(ll x,ll y,ll p){
+    // computes x ^ y % p 
+    ll res = 1;
+    x = x % p;  
+    while (y > 0) {
+        if ((y & 1) == 1)  
+            res = (res * x) % p ;
+        y = y >> 1;
+        x = (x * x) % p; 
+    }
+    return res; 
+}
+
 int main() {
 
     ll n, k; 
@@ -87,6 +100,38 @@ int main() {
     for(ll i=0; i<n; i++)
         parents.emplace(dj.find_set(i));
     ll nsets = parents.size();
+
+    // sizes for each unique set
+    vector<ll> sizes;
+    auto all_sizes = dj.get_sizes();
+    for(auto x : parents)
+        sizes.push_back(all_sizes[x]); 
+
+    ll modval = ll(1e9+7);
+    // solving these just requires the right way
+    // to solve these
+    // during the contest i tried to count them in a more
+    // difficult way.  sad that only counting prevented me
+    // or maybe that is the whole point of the problem. SAD. idk. 
+    
+    // i tried to count the number of good paths directly
+    // it is much easier to count the number of total paths
+    // and the number of bad paths. why do these insights not come
+    // to me?
+
+    ll summ = 0;
+    for(auto x : sizes)
+        summ += x;
+    if(summ != n)
+        throw("something wacky is going on here!\n");
+
+    ll count = mod_power(n, k, modval);
+    for(auto x : sizes) {
+        ll val = mod_power(x, k, modval);
+        count = (count - val + modval) % modval;
+    }
+    printf("%lld\n", count);
+        
 
     return 0;
 }
