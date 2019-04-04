@@ -24,7 +24,7 @@ private:
 public:
     
     DisjointSet(ll maxn) {
-        // with both optimizations - path compression with 
+        // with both optimizations - path compression and 
         // union by size, time queries become nearly constant.
         // final amortized time is the inverse Ackermann function
         maxn_ = maxn;

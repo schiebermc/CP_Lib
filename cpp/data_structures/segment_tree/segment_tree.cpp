@@ -11,18 +11,17 @@ typedef long long int ll;
 
 class SegmentTree {
     
-    // this class was constructed with inspiration and guidance from:
     // https://leetcode.com/articles/a-recursive-approach-to-segment-trees-range-sum-queries-lazy-propagation/
     // O(n) leaves, O(n-1) internal nodes.
-    // build:  O(n) :D
-    // update: O(k), where k = height of tree :D
-    // query:  O(k), where k = height of tree :D
+    // build:  O(n)
+    // update: O(log(n))
+    // query:  O(log(n))
 
 public:
     
     ll n_;
-    vector<ll> tree_;
     ll max_depth_;
+    vector<ll> tree_;
     vector<string> merge_op_;    
 
     SegmentTree(vector<ll>& data, vector<string> merge_op) 
