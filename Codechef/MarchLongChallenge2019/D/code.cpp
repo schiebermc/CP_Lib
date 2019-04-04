@@ -17,6 +17,8 @@ typedef long long int ll;
 
 ll solution4(ll N, ll K, vector<ll>& A){
 
+    // using prefix arrays and binary search
+
     ll count = 0;
     ll max_A = *max_element(A.begin(), A.end());
 
@@ -104,8 +106,107 @@ ll solution4(ll N, ll K, vector<ll>& A){
             if(l != 0)
                 v -= f[l-1][F-1];            
             
-            if(v > 0)
+            if(v > 0){
                 count++; 
+            }
+        }
+    }
+
+    return count;
+}
+
+class FenwickTree {
+private:
+    ll n_;
+    vector<ll> tree_;    
+public:
+    FenwickTree(ll n) {
+        n_ = n;
+        tree_ = vector<ll>(n+1, 0);
+    }
+    void update(ll ind, ll val) {
+        ind++;
+        while(ind <= n_) {
+            tree_[ind] += val;
+            ind = ind + (ind & (-ind));
+        }
+    }    
+    ll get_sum(ll ind) {
+        ind++;
+        ll summ = 0;
+        while(ind > 0 ) {
+            summ += tree_[ind];
+            ind = ind - (ind & (-ind));
+        }
+        return summ;
+    }
+};
+
+class OrderStatisticTree {
+
+private:
+    ll max_n_;
+    FenwickTree tree_;
+
+public:
+
+    OrderStatisticTree(ll max_n) : tree_(max_n+1) {
+        // the range will be from 0 to max_n
+        max_n_ = max_n;
+    }
+    OrderStatisticTree(ll max_n, vector<ll> &a) : tree_(max_n+1) {
+        // the range will be from 0 to max_n
+        max_n_ = max_n;
+        for(auto x : a)
+            add_val(x);
+    }
+    void add_val(ll val) {
+        tree_.update(val, 1);
+    }
+    void delete_val(ll val) {
+        tree_.update(val, -1);
+    }
+    ll rank(ll val) {
+        return tree_.get_sum(val);
+    }
+    ll kthsmallest(ll k) {
+        ll L = 0;
+        ll R = max_n_;
+        while(L < R) {
+            ll M = (L + R) / 2;
+            if(k <= tree_.get_sum(M))
+                R = M;
+            else
+                L = M + 1;
+        }
+        return L;
+    }
+};
+
+
+ll solution5(ll N, ll K, vector<ll>& A){
+
+    // using order statistic tree
+    ll count = 0;
+    ll max_A = *max_element(A.begin(), A.end());
+    OrderStatisticTree Otree(max_A);
+    for(ll l=0; l<N; l++) {
+        for(ll r=l; r<N; r++) {
+            ll size = r - l + 1;
+            ll m = ceil(double(K)/double(size));
+            Otree.add_val(A[r]);
+            ll rank = ceil(double(K)/double(m));
+            ll X = Otree.kthsmallest(rank);
+            ll F = Otree.rank(X) - Otree.rank(X-1);
+            if(F == 0 or F > max_A)      
+                continue;
+            ll c = Otree.rank(F) - Otree.rank(F-1);
+            if(c != 0){
+                count++;
+            }
+        }
+        for(ll r=l; r<N; r++) {
+            Otree.delete_val(A[r]);
         }
     }
 
@@ -117,27 +218,35 @@ void validate() {
     ll A_max = 5;
 
     ll N, K;
-    for(ll seed=0; seed<100; seed++){
+    for(ll seed=86; seed<87; seed++){
+        srand(seed);
         N = rand() % N_max + 1;
         K = rand() % ll(1e9) + 1;
         
-        printf("%lld %lld\n", N, K); 
+        //printf("%lld %lld\n", N, K); 
         vector<ll> A; A.resize(N);
         for(ll i=0; i<N; i++)
             A[i] = rand() % A_max + 1;
+        
+        ll val1 = solution4(N, K, A);
+        ll val2 = solution5(N, K, A);
+        if(val1 != val2){
+            printf("failed at seed: %lld -- %lld vs %lld\n", seed, val1, val2);
        
-        for(auto x : A)
-            printf("%lld ", x);
-        printf("\n");
-        //printf("%lld\n", solution4(N, K, A));
-        //printf("%lld\n", solution4(N, K, A));
+            for(auto x : A)
+                printf("%lld ", x);
+            printf("\n");
+            
+        
+        }
+        //printf("%lld - %lld\n", solution4(N, K, A), solution5(N, K, A));
     }
 
 }
 
 int main() {    
 
-//    validate();
+    validate();
 
     ll t;
     cin >> t;
@@ -149,7 +258,8 @@ int main() {
         for(ll i=0; i<N; i++)
             scanf("%lld", &A[i]);
         
-        printf("%lld\n", solution4(N, K, A));
+//        printf("%lld\n", solution4(N, K, A));
+        printf("%lld\n", solution5(N, K, A));
     }
         
 return 0;
