@@ -48,7 +48,7 @@ private:
 public:
 
     OrderStatisticTree(ll max_n, vector<ll> &a) : tree_(max_n+1) {
-        // the range will be from 0 to max_n
+        // the range will be from 0 to max_n, inclusive [0, max_n]
         max_n_ = max_n;
         for(auto x : a)
             add_val(x);
@@ -73,6 +73,12 @@ public:
                 L = M + 1;
         }
         return L;
+    }
+    ll frequency(ll val) {
+        if(val == 0)
+            return rank(val)
+        else
+            return rank(val) - rank(val-1);
     }
 };
 

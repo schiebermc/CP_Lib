@@ -10,8 +10,12 @@
 #include <unordered_set>
 #include <climits>
 #include <bitset>
+#include <ext/pb_ds/assoc_container.hpp> // Common file 
+#include <ext/pb_ds/tree_policy.hpp> 
+#include <functional> // for less 
 
 using namespace std;
+using namespace __gnu_pbds;
 
 typedef long long int ll;
 
@@ -213,6 +217,40 @@ ll solution5(ll N, ll K, vector<ll>& A){
     return count;
 }
 
+
+ll solution6(ll N, ll K, vector<ll>& A){
+
+    // using policy based data structure
+    typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> order_set; 
+    order_set s;
+
+    // s.insert(val)
+    // s.find_by_order(rank)
+    // s.order_of_key(val)
+    // s.clear()
+
+    ll count = 0;
+    for(ll l=0; l<N; l++) {
+        for(ll r=l; r<N; r++) {
+            ll size = r - l + 1;
+            ll m = ceil(double(K)/double(size));
+            s.insert(A[r]);
+            ll rank = ceil(double(K)/double(m));
+            ll X = s.find_by_order(rank);
+            ll F = s.order_of_key(X) - s.order_of_key(X-1);
+            if(F == 0 or F > max_A)      
+                continue;
+            ll c = s.order_of_key(F) - s.order_of_key(F-1);
+            if(c != 0){
+                count++;
+            }
+        }
+        s.clear()
+    }
+
+    return count;
+}
+
 void validate() {
     ll N_max = 5;
     ll A_max = 5;
@@ -260,6 +298,7 @@ int main() {
         
 //        printf("%lld\n", solution4(N, K, A));
         printf("%lld\n", solution5(N, K, A));
+        printf("%lld\n", solution6(N, K, A));
     }
         
 return 0;

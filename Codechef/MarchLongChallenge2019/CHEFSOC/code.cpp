@@ -16,50 +16,24 @@ using namespace std;
 typedef long long int ll;
 
 
-void solution(ll n, ll m, vector<ll> a){
-
-
-}
-
-void solution2(ll n, ll m, vector<ll> a){
-
-
-}
-
-void validation(ll start_seed, ll end_seed, ll n) {
-
-    for(ll s=start_seed; s<=end_seed; s++) {
-        srand(s);
-        vector<ll> a;
-        for(ll i=0; i<n; i++) {
-            a.push_back(rand()%16);
-        }
-        //for (auto x : a) {
-        //    printf("%lld, ", x);
-        //}
-        //printf("\n");
-        //if(solution2(n, a) != solution(n, a)) {
-        //    printf("failed at seed: %lld\n", s);
-        //}
-
-    }
-
-}
-
 int main() {
 
     // variables
-    ll n, m;
-    cin >> n >> m;
+    ll t;
+    cin >> t;
+    
+    for(ll i=0; i<t; i++) {
 
-    vector<ll> arr; arr.resize(n);
-    for(ll i=0; i<n; i++) {
-        scanf("%lld", &arr[i]);
-    }
+        ll n;
+        cin >> n;
     
-    //validation(0, 10, 10)
-    solution(n, m, arr);
-    
+        vector<ll> arr; arr.resize(n);
+        for(ll i=0; i<n; i++) {
+            scanf("%lld", &arr[i]);
+        }
+        
+         
+    }    
     return 0;
 }
 

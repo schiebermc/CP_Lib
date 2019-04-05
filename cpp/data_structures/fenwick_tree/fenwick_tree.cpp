@@ -37,7 +37,8 @@ public:
     }
 
     void update(ll ind, ll val) {
-        // ind is 0-based. val should be a shift!!
+        // ind is 0-based
+        // val should be a shift!!
         ind++;
         while(ind <= n_) {
             tree_[ind] += val;
