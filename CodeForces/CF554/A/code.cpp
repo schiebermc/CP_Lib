@@ -21,13 +21,23 @@ int main() {
     ll n, m;
     cin >> n >> m;
 
-    vector<ll> a; a.resize(n);
+    ll ec = 0, oc = 0, ek = 0, ok = 0, a;
     for(ll i=0; i<n; i++) {
-        cin >> a[i];
+        cin >> a;
+        if(a%2 == 0)
+            ec++;
+        else
+            oc++;
     }
-    
-    
+    for(ll i=0; i<m; i++) {
+        cin >> a;
+        if(a%2 == 0)
+            ek++;
+        else
+            ok++;
+    }
 
+    printf("%lld\n", min(ec, ok) + min(oc, ek));
 
     return 0;
 }
